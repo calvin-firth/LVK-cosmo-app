@@ -60,7 +60,7 @@ for event in st.session_state["redis"].smembers("events:all"):
         if binary_data:
             keys = ["skymap","numdensity","posterior plot"]
             #st.subheader("Figures")
-            for key in keys():
+            for key in keys:
                 try:
                     binary = binary_data[key]
                     if binary.startswith(b'\x89PNG'):
