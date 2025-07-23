@@ -60,6 +60,8 @@ for event in st.session_state["redis"].smembers("events:all"):
         if binary_data:
             #st.subheader("Figures")
             for key, binary in binary_data.items():
+                if key =="overunder":
+                    continue
                 if binary.startswith(b'\x89PNG'):
                     st.write(f"**{key}**")
                     st.image(io.BytesIO(binary))
@@ -68,4 +70,5 @@ for event in st.session_state["redis"].smembers("events:all"):
 
         if json_data:
             #st.subheader("Structured Data")
-            st.dataframe(json_data['posterior'],hide_index=True)
+            st.write("Posterior data")
+            st.dataframe(json_data['posterior'],hide_index=True,height=500)
