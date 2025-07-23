@@ -44,6 +44,7 @@ for event in st.session_state["redis"].smembers("events:all"):
     # 🔤 Show plain UTF-8 decoded fields
     if decoded_data:
         #st.subheader("Event Info")
+        pd.options.display.float_format = "{:,.2f}".format
         styler = (pd.DataFrame.from_dict(decoded_data)).style.hide().format(decimal=',', precision=2)
         st.write(styler.to_html(), unsafe_allow_html=True)
 
