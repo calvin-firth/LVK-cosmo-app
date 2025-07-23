@@ -44,7 +44,7 @@ for event in st.session_state["redis"].smembers("events:all"):
     # 🔤 Show plain UTF-8 decoded fields
     if decoded_data:
         #st.subheader("Event Info")
-        st.write(pd.from_dict(decoded_data))
+        st.write(pd.DataFrame.from_dict(decoded_data))
 
     # 📝 Show JSON fields
 
