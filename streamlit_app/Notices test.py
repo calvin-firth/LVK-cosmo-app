@@ -58,15 +58,18 @@ for event in st.session_state["redis"].smembers("events:all"):
 
         # Show PNGs or warn
         if binary_data:
+            keys = ["skymap","numdensity","posterior plot"]
             #st.subheader("Figures")
-            for key, binary in binary_data.items():
-                if key =="overunder":
+            for key in keys():
+                try:
+                    binary = binary_data[key]
+                    if binary.startswith(b'\x89PNG'):
+                        st.write(f"**{key}**")
+                        st.image(io.BytesIO(binary))
+                    else:
+                        st.warning(f"Cannot display binary data for key '{key}': unsupported format.")
+                except:
                     continue
-                if binary.startswith(b'\x89PNG'):
-                    st.write(f"**{key}**")
-                    st.image(io.BytesIO(binary))
-                else:
-                    st.warning(f"Cannot display binary data for key '{key}': unsupported format.")
 
         if json_data:
             #st.subheader("Structured Data")
