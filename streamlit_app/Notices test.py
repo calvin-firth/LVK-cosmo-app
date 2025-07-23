@@ -24,6 +24,7 @@ for event in st.session_state["redis"].smembers("events:all"):
         json_data = {}
 
         raw_data = st.session_state["redis2"].hgetall(event)
+        raw_data = dict(sorted(raw_data.items()))
 
         # Classify each item
         for k, v in raw_data.items():
@@ -33,7 +34,7 @@ for event in st.session_state["redis"].smembers("events:all"):
 
                 # Check if value is valid JSON
                 try:
-                    parsed_json = pd.read_json(StringIO(value))
+                    parsed_json = pd.read_json(StringIO(value)).style.hide()
                     json_data[key] = parsed_json
                 except:
                     decoded_data[key] = [value]
