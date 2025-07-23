@@ -14,6 +14,8 @@ if "redis2" not in st.session_state:
 st.write("Queued alerts: ")
 st.write(st.session_state["queued"])
 
+st.title("Recent events")
+
 for event in st.session_state["redis"].smembers("events:all"):
     st.header(event)
     decoded_data = {}
@@ -42,7 +44,7 @@ for event in st.session_state["redis"].smembers("events:all"):
     # 🔤 Show plain UTF-8 decoded fields
     if decoded_data:
         #st.subheader("Event Info")
-        st.write(decoded_data)
+        st.write(pd.from_dict(decoded_data))
 
     # 📝 Show JSON fields
 
