@@ -71,4 +71,4 @@ for event in st.session_state["redis"].smembers("events:all"):
         if json_data:
             #st.subheader("Structured Data")
             st.write("Posterior data")
-            st.dataframe(json_data['posterior'],hide_index=True,height=100)
+            st.dataframe(json_data['posterior'],hide_index=True,height=200)
