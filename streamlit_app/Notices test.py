@@ -45,11 +45,14 @@ for event in st.session_state["redis"].smembers("events:all"):
     if decoded_data:
         #st.subheader("Event Info")
 
-        mapper = {'50% area': '{0:,.2f%}',
-                  '90% area': '{0:,.2f%}',
-                  'dl': '{0:,.2f%}'
+        mapper = {'50% area': '{0:,.2f}',
+                  '90% area': '{0:,.2f}',
+                  'dl': '{0:,.2f}'
                   }
-        styler = (pd.DataFrame.from_dict(decoded_data)).style.hide().format(mapper)
+        df = pd.DataFrame.from_dict(decoded_data)
+        for col in ['50% area', '90% area', 'dl']:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+        styler = (df).style.hide().format(mapper)
         st.write(styler.to_html(), unsafe_allow_html=True)
 
     # 📝 Show JSON fields
