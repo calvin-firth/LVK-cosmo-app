@@ -36,7 +36,7 @@ for event in st.session_state["redis"].smembers("events:all"):
                 parsed_json = pd.read_json(StringIO(value))
                 json_data[key] = parsed_json
             except:
-                decoded_data[key] = value
+                decoded_data[key] = [value]
 
         except UnicodeDecodeError:
             binary_data[key] = v  # Leave binary
