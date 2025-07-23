@@ -34,7 +34,7 @@ for event in st.session_state["redis"].smembers("events:all"):
 
                 # Check if value is valid JSON
                 try:
-                    parsed_json = pd.read_json(StringIO(value)).style.hide().format()
+                    parsed_json = pd.read_json(StringIO(value)).style.hide().format('{0:,.2f}')
                     json_data[key] = parsed_json
                 except:
                     decoded_data[key] = [value]
