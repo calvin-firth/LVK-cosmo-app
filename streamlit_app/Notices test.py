@@ -20,7 +20,6 @@ for event in st.session_state["redis"].smembers("events:all"):
     st.header(event)
     decoded_data = {}
     binary_data = {}
-    # Try decoding each value
     json_data = {}
 
     raw_data = st.session_state["redis2"].hgetall(event)
@@ -41,7 +40,7 @@ for event in st.session_state["redis"].smembers("events:all"):
         except UnicodeDecodeError:
             binary_data[key] = v  # Leave binary
 
-    # 🔤 Show plain UTF-8 decoded fields
+    #Show plain UTF-8 decoded fields
     if decoded_data:
         #st.subheader("Event Info")
 
@@ -55,11 +54,9 @@ for event in st.session_state["redis"].smembers("events:all"):
         styler = (df).style.hide().format(mapper)
         st.write(styler.to_html(), unsafe_allow_html=True)
 
-    # 📝 Show JSON fields
-
-    # 🖼️ Show PNG images or warn
+    # Show PNGs or warn
     if binary_data:
-        st.subheader("Figures")
+        #st.subheader("Figures")
         for key, binary in binary_data.items():
             if binary.startswith(b'\x89PNG'):
                 st.write(f"**{key}**")
