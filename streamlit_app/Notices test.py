@@ -34,7 +34,7 @@ for event in st.session_state["redis"].smembers("events:all"):
 
                 # Check if value is valid JSON
                 try:
-                    parsed_json = pd.read_json(StringIO(value)).style.hide().format('{0:,.2f}')
+                    parsed_json = pd.read_json(StringIO(value))
                     json_data[key] = parsed_json
                 except:
                     decoded_data[key] = [value]
@@ -68,4 +68,4 @@ for event in st.session_state["redis"].smembers("events:all"):
 
         if json_data:
             #st.subheader("Structured Data")
-            st.dataframe(json_data['posterior'])
+            st.dataframe(json_data['posterior'],hide_index=True)
