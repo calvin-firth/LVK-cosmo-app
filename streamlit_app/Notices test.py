@@ -26,7 +26,6 @@ for event in st.session_state["redis"].smembers("events:all"):
         raw_data = st.session_state["redis2"].hgetall(event)
         raw_data = dict(sorted(raw_data.items()))
 
-        # Classify each item
         for k, v in raw_data.items():
             key = k.decode() if isinstance(k, bytes) else k
             try:
