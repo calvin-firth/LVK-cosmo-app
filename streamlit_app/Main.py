@@ -24,6 +24,8 @@ st.session_state["status"] = dict(sorted(st.session_state["status"].items()))
 st.session_state["queued"] = st.session_state["redis"].lrange("queue:waiting", 0, -1)
 st.session_state["events"]=st.session_state["redis"].smembers("events:all")
 
+st.session_state["status"]["Connected"] = ((time.time() - st.session_state["status"]["Last Check"]) < 60)
+
 pg = st.navigation([st.Page("Home.py", title="Home"),st.Page("Notices test.py")])
 pg.run()
 

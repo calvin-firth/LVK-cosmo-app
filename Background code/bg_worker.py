@@ -18,7 +18,7 @@ def poll_events():
                     consumer.subscribe(['igwn.gwalert'])
                     connected = consumer.list_topics() is not None
                     print("Reconnected")
-                    r.hset("Status", "Connected", "True")
+                    #r.hset("Status", "Connected", "True")
                 except:
                     print("Still disconnected")
                     continue
@@ -39,10 +39,11 @@ def poll_events():
 
                 if alert['superevent_id'][0] == 'S':
                     r.rpush("queue:waiting", json.dumps(alert)) #Use all events for testing
-            r.hset("Status","Last Check",time.ctime())
+            if connected:
+                r.hset("Status","Last Check",time.time())
         except:
             print("Kafka disconnected")
-            r.hset("Status","Connected","False")
+            #r.hset("Status","Connected","False")
             connected = False
 
         time.sleep(5)
