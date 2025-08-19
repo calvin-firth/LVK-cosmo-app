@@ -2,6 +2,8 @@ import streamlit as st
 import time
 import redis
 from streamlit_autorefresh import st_autorefresh
+from datetime import datetime, timezone,timedelta
+from streamlit_javascript import st_javascript
 
 def is_utf8(data):
     try:
@@ -25,6 +27,19 @@ st.session_state["queued"] = st.session_state["redis"].lrange("queue:waiting", 0
 st.session_state["events"]=st.session_state["redis"].smembers("events:all")
 
 st.session_state["status"]["Connected"] = ((time.time() - float(st.session_state["status"]["Last Check"])) < 60)
+
+tz_offset = st_javascript("new Date().getTimezoneOffset();")
+
+if tz_offset is not None:
+    utc_dt = st.session_state["status"]["Last Check"]
+
+    # Convert using offset
+    local_dt = utc_dt.astimezone(
+        timezone.utc
+    ) - timedelta(minutes=tz_offset)  # JS offset is minutes behind UTC
+
+    st.session_state["status"]["Last Check"]=local_dt.strftime("%Y-%m-%d %H:%M:%S")
+
 
 pg = st.navigation([st.Page("Home.py", title="Home"),st.Page("Notices test.py")])
 pg.run()
