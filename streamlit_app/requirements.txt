@@ -1,2 +1,3 @@
 redis
 streamlit_autorefresh
+streamlit_javascript
