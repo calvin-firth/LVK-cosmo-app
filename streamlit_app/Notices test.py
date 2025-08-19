@@ -16,7 +16,7 @@ st.write(st.session_state["queued"])
 
 st.title("Recent events")
 
-for event in st.session_state["redis"].smembers("events:all"):
+for event in sorted(st.session_state["redis"].smembers("events:all")):
     if(st.session_state["redis"].exists(event)):
         st.header(event)
         decoded_data = {}
