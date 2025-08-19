@@ -32,7 +32,7 @@ tz_offset = st_javascript("new Date().getTimezoneOffset();")
 
 if tz_offset is not None:
     utc_str = st.session_state["status"]["Last Check"]
-    utc_dt=datetime.strptime(utc_str)
+    utc_dt=datetime.fromtimestamp(utc_str)
     # Convert using offset
     local_dt = utc_dt.astimezone(
         timezone.utc
