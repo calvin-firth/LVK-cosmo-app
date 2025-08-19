@@ -31,8 +31,8 @@ st.session_state["status"]["Connected"] = ((time.time() - float(st.session_state
 tz_offset = st_javascript("new Date().getTimezoneOffset();")
 
 if tz_offset is not None:
-    utc_dt = st.session_state["status"]["Last Check"]
-
+    utc_str = st.session_state["status"]["Last Check"]
+    utc_dt=datetime.strptime(utc_str)
     # Convert using offset
     local_dt = utc_dt.astimezone(
         timezone.utc
