@@ -5,6 +5,7 @@ import redis
 import io
 import pandas as pd
 from io import StringIO
+from datetime import date
 
 if "redis2" not in st.session_state:
     st.session_state["redis2"] = redis.Redis.from_url(
@@ -16,8 +17,17 @@ st.write(st.session_state["queued"])
 
 st.title("Recent events")
 
-for event in sorted(st.session_state["redis"].smembers("events:all"),reverse=True):
+today = date.today()
+formatted_date = int(today.strftime("%y%m%d"))
+are_events=False
+
+for event in st.session_state["events"]:
+    date = event[1:7]
+    if (today-date > 200):
+        continue
+
     if(st.session_state["redis"].exists(event)):
+        are_events=True
         st.header(event)
         decoded_data = {}
         binary_data = {}
@@ -74,3 +84,6 @@ for event in sorted(st.session_state["redis"].smembers("events:all"),reverse=Tru
             #st.subheader("Structured Data")
             st.write("Posterior data")
             st.dataframe(json_data['posterior'],hide_index=True,height=200)
+
+if not are_events:
+    st.write("No recent events")

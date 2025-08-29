@@ -24,7 +24,7 @@ if "events" not in st.session_state:
 st.session_state["status"] = st.session_state["redis"].hgetall("Status")
 st.session_state["status"] = dict(sorted(st.session_state["status"].items()))
 st.session_state["queued"] = st.session_state["redis"].lrange("queue:waiting", 0, -1)
-st.session_state["events"]=st.session_state["redis"].smembers("events:all")
+st.session_state["events"]=sorted(st.session_state["redis"].smembers("events:all"),reverse=True)
 
 st.session_state["status"]["Connected"] = ((time.time() - float(st.session_state["status"]["Last Check"])) < 60)
 
@@ -41,7 +41,7 @@ if tz_offset is not None:
     st.session_state["status"]["Last Check"]=local_dt.strftime("%Y-%m-%d %H:%M:%S")
 
 
-pg = st.navigation([st.Page("Home.py", title="Home"),st.Page("Notices test.py")])
+pg = st.navigation([st.Page("Home.py", title="Home"),st.Page("Notices test.py",title="Recent events"),st.Page("All events.py",title="All events")])
 pg.run()
 
 if(st.session_state["status"]["Connected"]):
