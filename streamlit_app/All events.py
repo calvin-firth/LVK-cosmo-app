@@ -1,6 +1,7 @@
 import streamlit as st
 import redis
 import pandas as pd
+from io import StringIO
 
 if "redis2" not in st.session_state:
     st.session_state["redis2"] = redis.Redis.from_url(
