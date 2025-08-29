@@ -22,8 +22,8 @@ formatted_date = int(today.strftime("%y%m%d"))
 are_events=False
 
 for event in st.session_state["events"]:
-    date = event[1:7]
-    if (today-date > 200):
+    t_event = int(event[1:7])
+    if (formatted_date-t_event > 200):
         continue
 
     if(st.session_state["redis"].exists(event)):
