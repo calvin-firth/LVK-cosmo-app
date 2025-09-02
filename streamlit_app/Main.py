@@ -41,7 +41,7 @@ if tz_offset is not None:
     st.session_state["status"]["Last Check"]=local_dt.strftime("%Y-%m-%d %H:%M:%S")
 
 
-pg = st.navigation([st.Page("Home.py", title="Home"),st.Page("Notices test.py",title="Recent events"),st.Page("All events.py",title="All events")])
+pg = st.navigation([st.Page("Home.py", title="Home"),st.Page("Notices test.py",title="Recent events"),st.Page("All events.py",title="All events")],st.Page("Combined posterior.py",title="All events"))
 pg.run()
 
 if(st.session_state["status"]["Connected"]):
