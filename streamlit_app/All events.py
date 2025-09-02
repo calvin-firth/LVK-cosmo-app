@@ -8,7 +8,7 @@ if "redis2" not in st.session_state:
     st.session_state["redis2"] = redis.Redis.from_url(
         "rediss://default:AWTjAAIjcDE0ODhlMDIxZTEwNDg0Y2NmOTM5YTliZWI4ZTE0OGI5ZHAxMA@internal-sawfly-25827.upstash.io:6379",
         decode_responses=False,retry_on_timeout=True)
-
+st.write("Use the dropdown menu to view the analysis results for all previously analyzed events (currently only includes LVK's O4 operating run)")
 selected_event = st.selectbox("", ["Choose an event..."] + st.session_state["events"],label_visibility="collapsed")
 
 if selected_event is not "Choose an event...":
