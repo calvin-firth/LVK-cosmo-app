@@ -2,6 +2,7 @@ import numpy as np
 import streamlit as st
 import redis
 import pandas as pd
+from io import StringIO
 
 if "redis2" not in st.session_state:
     st.session_state["redis2"] = redis.Redis.from_url(
@@ -37,7 +38,7 @@ if "Event table" not in st.session_state:
             if decoded_data:
                 # st.subheader("Event Info")
 
-                for col in ['50% area', '90% area', 'dl']:
-                    tbl_df.loc[event][col] = decoded_data
+
+                tbl_df.loc[event] = decoded_data
 
 st.write(tbl_df)
