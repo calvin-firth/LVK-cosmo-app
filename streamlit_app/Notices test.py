@@ -26,7 +26,7 @@ for event in st.session_state["events"]:
     if (formatted_date-t_event > 200):
         continue
 
-    if(st.session_state["redis"].exists(event)):
+    if(st.session_state["redis2"].exists(event)):
         are_events=True
         st.header(event)
         decoded_data = {}
