@@ -10,8 +10,8 @@ if "redis2" not in st.session_state:
         decode_responses=False,retry_on_timeout=True)
 
 if "Event table" not in st.session_state:
-    tbl_json = st.session_state["redis2"].json().get("event_list_metadata")
-    tbl_df = pd.read_json(tbl_json,'$')
+    tbl_json = st.session_state["redis2"].json().get("event_list_metadata",'$')
+    tbl_df = pd.read_json(tbl_json)
     '''tbl_df = pd.DataFrame(columns=["50% area", "90% area", "dl", ])
     for event in st.session_state["events"]:
         if (st.session_state["redis2"].exists(event)):
