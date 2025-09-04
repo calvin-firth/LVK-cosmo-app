@@ -23,8 +23,8 @@ posteriors = []
 retracted=0
 num_post=0
 
-loc_max = 65
-loc_min = 0
+loc_max,loc_min=st.slider("Luminosity Distance (Mpc)", 0, None,(0,100))
+
 dl_max = np.inf
 dl_min = 0
 
@@ -85,7 +85,7 @@ ax.scatter(posteriors[0,0],combined_post,s=5)
 ax.plot(posteriors[0,0],empty_post,color='orange')
 ax.set_xlabel("$H_0 (km/s/Mpc)$",fontsize=16)
 ax.set_ylabel("$p(H_0)$",fontsize=16)
-ax.set_title(str(loc_max) + " $deg^2$ cutoff (" + str(num_post) + " events)",fontsize=20)
+ax.set_title("Combined posterior (" + str(num_post) + " events)",fontsize=20)
 ax.tick_params(labelsize=14)
 ax.legend(["Glade+ K-band, eps1","Empty catalog"],fontsize=14)
 
