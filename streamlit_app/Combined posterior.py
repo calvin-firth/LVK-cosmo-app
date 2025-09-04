@@ -27,7 +27,7 @@ num_post=0
 
 loc_log_values = [0]
 loc_log_values.append(np.geomspace(0.001,0.1,num=10).tolist())
-loc_log_values = np.geomspace(0.1, np.int64(np.ceil(np.max(tbl["90% area"]))), num=500).tolist()
+loc_log_values.append(np.geomspace(0.1, np.int64(np.ceil(np.max(tbl["90% area"]))), num=500).tolist())
 
 loc_min,loc_max=st.select_slider("90% Sky-localization area ($deg^2$)", loc_log_values,(loc_log_values[0],loc_log_values[300]))
 
