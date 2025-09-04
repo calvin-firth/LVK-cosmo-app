@@ -36,8 +36,6 @@ for event in events_to_choose:
         retracted+=1
         continue #or event == 'S241126dm'
     if (st.session_state["redis2"].exists(event)):
-        are_events = True
-        st.header(event)
         decoded_data = {}
         binary_data = {}
         json_data = {}
@@ -62,9 +60,34 @@ for event in events_to_choose:
 
         if json_data:
             # st.subheader("Structured Data")
-            st.dataframe(json_data['posterior'], hide_index=True, height=200)
+            posteriors.append(json_data['posterior'].to_numpy())
             num_post += 1
-    #post = pd.read_csv('Analysis plots/Gladep_neffPE10_npar25k_eps1_rs0/'+event+'/H0_posterior.csv')
-    #posteriors_dict[event] = post.to_numpy()
-    #posteriors.append(post.to_numpy())
-    #event_list_rs0.append(event)
+
+
+posteriors = np.stack(posteriors)
+posteriors = np.transpose(posteriors, (2, 0, 1))
+
+comb_log = np.sum(np.log(posteriors[1]),axis=0)
+comb_log -= np.max(comb_log)
+combined_post = np.exp(comb_log)
+area = np.trapz(combined_post, posteriors[0,0])
+combined_post = combined_post / area
+
+log_likelihood = np.sum(np.log(posteriors[2]),axis=0)
+like_max = np.max(log_likelihood)
+log_likelihood -= np.max(log_likelihood)
+empty_post = np.exp(log_likelihood)
+area_empty = np.trapz(empty_post, posteriors[0,0])
+empty_post = empty_post/area_empty
+
+plt.figure()
+plt.scatter(posteriors[0,0],combined_post,s=5)
+plt.plot(posteriors[0,0],empty_post,color='orange')
+plt.xlabel("$H_0 (km/s/Mpc)$",fontsize=16)
+plt.ylabel("$p(H_0)$",fontsize=16)
+plt.title(str(loc_max) + " $deg^2$ cutoff (" + str(num_post) + " events)",fontsize=20)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.legend(["Glade+ K-band, eps1","Empty catalog"],fontsize=14)
+
+st.pyplot()
