@@ -25,7 +25,7 @@ posteriors = []
 retracted=0
 num_post=0
 
-loc_log_values = [0] + np.round((np.geomspace(0.001,0.1,num=10)),4).tolist() + np.round(np.geomspace(0.1,9.9,num=15),1).tolist(), + np.round((np.geomspace(10, 99.9, num=80)),1).tolist() + np.round((np.geomspace(100, 999, num=120)),0).tolist() + np.round((np.geomspace(1000, np.int64(np.ceil(np.max(tbl["90% area"]))), num=100),0)).tolist()
+loc_log_values = [0] + (np.round((np.geomspace(0.001,0.1,num=10)),4)).tolist() + (np.round(np.geomspace(0.1,9.9,num=15),1)).tolist(), + (np.round((np.geomspace(10, 99.9, num=80)),1)).tolist() + (np.round((np.geomspace(100, 999, num=120)),0)).tolist() + (np.round((np.geomspace(1000, np.int64(np.ceil(np.max(tbl["90% area"]))), num=100),0))).tolist()
 
 loc_min,loc_max=st.select_slider("90% Sky-localization area ($deg^2$)", loc_log_values,(loc_log_values[0],loc_log_values[106]))
 
