@@ -80,14 +80,13 @@ empty_post = np.exp(log_likelihood)
 area_empty = np.trapz(empty_post, posteriors[0,0])
 empty_post = empty_post/area_empty
 
-plt.figure()
-plt.scatter(posteriors[0,0],combined_post,s=5)
-plt.plot(posteriors[0,0],empty_post,color='orange')
-plt.xlabel("$H_0 (km/s/Mpc)$",fontsize=16)
-plt.ylabel("$p(H_0)$",fontsize=16)
-plt.title(str(loc_max) + " $deg^2$ cutoff (" + str(num_post) + " events)",fontsize=20)
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
-plt.legend(["Glade+ K-band, eps1","Empty catalog"],fontsize=14)
+fig,ax = plt.subplots
+ax.scatter(posteriors[0,0],combined_post,s=5)
+ax.plot(posteriors[0,0],empty_post,color='orange')
+ax.set_xlabel("$H_0 (km/s/Mpc)$",fontsize=16)
+ax.set_ylabel("$p(H_0)$",fontsize=16)
+ax.set_title(str(loc_max) + " $deg^2$ cutoff (" + str(num_post) + " events)",fontsize=20)
+ax.tick_params(labelsize=14)
+ax.legend(["Glade+ K-band, eps1","Empty catalog"],fontsize=14)
 
-st.pyplot()
+st.pyplot(fig)
