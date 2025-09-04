@@ -14,8 +14,9 @@ if "redis2" not in st.session_state:
 if "Event table" not in st.session_state:
     tbl_json = st.session_state["redis2"].json().get("event_list_metadata",'$')[0]
     tbl_df = pd.read_json(StringIO(tbl_json),dtype=float)
-
-st.write(tbl_df)
+    tbl_df = tbl_df.applymap(
+        lambda x: x[0] if isinstance(x, list) else x
+    ).apply(pd.to_numeric, errors="ignore")
 
 events_to_choose = []
 posteriors = []
@@ -26,9 +27,6 @@ loc_max = 65
 loc_min = 0
 dl_max = np.inf
 dl_min = 0
-min_overdensity = 0
-
-st.write(tbl_df['90% area'].dtypes)
 
 for event in tbl_df.loc[(tbl_df['90% area']<loc_max)*(tbl_df['90% area']>loc_min)*(tbl_df['dl']<dl_max)*(tbl_df['dl']>dl_min)].index:
     events_to_choose.append(event)
