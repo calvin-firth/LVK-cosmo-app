@@ -17,18 +17,20 @@ if "Event table" not in st.session_state:
     tbl_df = tbl_df.applymap(
         lambda x: x[0] if isinstance(x, list) else x
     ).apply(pd.to_numeric, errors="ignore")
+    st.session_state["Event table"]=tbl_df
 
+tbl=st.session_state["Event table"]
 events_to_choose = []
 posteriors = []
 retracted=0
 num_post=0
 
-loc_min,loc_max=st.slider("Luminosity Distance (Mpc)", 0, None,(0,100))
+loc_min,loc_max=st.slider("Luminosity Distance (Mpc)", 0, np.max(tbl["dl"]),(0,100))
 
 dl_max = np.inf
 dl_min = 0
 
-for event in tbl_df.loc[(tbl_df['90% area']<loc_max)*(tbl_df['90% area']>loc_min)*(tbl_df['dl']<dl_max)*(tbl_df['dl']>dl_min)].index:
+for event in tbl.loc[(tbl['90% area']<loc_max)*(tbl['90% area']>loc_min)*(tbl['dl']<dl_max)*(tbl['dl']>dl_min)].index:
     events_to_choose.append(event)
 
 for event in events_to_choose:
