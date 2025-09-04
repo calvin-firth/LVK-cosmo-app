@@ -12,40 +12,5 @@ if "redis2" not in st.session_state:
 if "Event table" not in st.session_state:
     tbl_json = st.session_state["redis2"].json().get("event_list_metadata",'$')[0]
     tbl_df = pd.read_json(StringIO(tbl_json))
-    '''tbl_df = pd.DataFrame(columns=["50% area", "90% area", "dl", ])
-    for event in st.session_state["events"]:
-        if (st.session_state["redis2"].exists(event)):
-            decoded_data = {}
-            binary_data = {}
-            json_data = {}
-            raw_data = st.session_state["redis2"].hgetall(event)
-            raw_data = dict(sorted(raw_data.items()))
-
-            for k, v in raw_data.items():
-                key = k.decode() if isinstance(k, bytes) else k
-                try:
-                    value = v.decode("utf-8")
-
-                    # Check if value is valid JSON
-                    try:
-                        parsed_json = pd.read_json(StringIO(value))
-                        json_data[key] = parsed_json
-                    except:
-                        decoded_data[key] = [value]
-
-                except UnicodeDecodeError:
-                    binary_data[key] = v  # Leave binary
-
-            # Show plain UTF-8 decoded fields
-            if decoded_data:
-                # st.subheader("Event Info")
-
-
-                tbl_df.loc[event] = decoded_data
-
-st.write(tbl_df)
-
-df_json = tbl_df.to_json()
-st.session_state["redis2"].json().set("event_list_metadata","$",df_json)'''
 
 st.write(tbl_df)
