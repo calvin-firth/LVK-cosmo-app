@@ -5,7 +5,6 @@ import pandas as pd
 from io import StringIO
 import os
 import matplotlib.pyplot as plt
-from numpy.array_api import float32
 
 if "redis2" not in st.session_state:
     st.session_state["redis2"] = redis.Redis.from_url(
