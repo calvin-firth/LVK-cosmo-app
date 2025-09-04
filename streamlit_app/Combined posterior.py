@@ -30,7 +30,7 @@ min_overdensity = 0
 
 st.write(tbl_df['90% area'].dtypes)
 
-for event in tbl_df.loc[(tbl_df['90% area']<loc_max)*(tbl_df['90% area']>loc_min)*(tbl_df['Luminosity Distance']<dl_max)*(tbl_df['Luminosity Distance']>dl_min) * (tbl_df['Max Overdensity']>min_overdensity)].index:
+for event in tbl_df.loc[(tbl_df['90% area']<loc_max)*(tbl_df['90% area']>loc_min)*(tbl_df['dl']<dl_max)*(tbl_df['dl']>dl_min)].index:
     events_to_choose.append(event)
 
 for event in events_to_choose:
