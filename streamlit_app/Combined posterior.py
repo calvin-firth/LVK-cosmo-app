@@ -80,7 +80,7 @@ empty_post = np.exp(log_likelihood)
 area_empty = np.trapz(empty_post, posteriors[0,0])
 empty_post = empty_post/area_empty
 
-fig,ax = plt.subplots
+fig,ax = plt.subplots()
 ax.scatter(posteriors[0,0],combined_post,s=5)
 ax.plot(posteriors[0,0],empty_post,color='orange')
 ax.set_xlabel("$H_0 (km/s/Mpc)$",fontsize=16)
