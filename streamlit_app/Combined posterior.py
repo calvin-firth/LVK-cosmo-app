@@ -14,7 +14,7 @@ if "redis2" not in st.session_state:
 
 if "Event table" not in st.session_state:
     tbl_json = st.session_state["redis2"].json().get("event_list_metadata",'$')[0]
-    tbl_df = pd.read_json(StringIO(tbl_json),dtype=float32)
+    tbl_df = pd.read_json(StringIO(tbl_json),dtype=float)
 
 st.write(tbl_df)
 
