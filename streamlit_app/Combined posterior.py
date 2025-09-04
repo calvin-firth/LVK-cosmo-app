@@ -25,7 +25,7 @@ posteriors = []
 retracted=0
 num_post=0
 
-loc_min,loc_max=st.slider("Luminosity Distance (Mpc)", 0, np.max(tbl["dl"]),(0,100))
+loc_min,loc_max=st.slider("Luminosity Distance (Mpc)", 0, np.ceil(np.max(tbl["dl"])),(0,100))
 
 dl_max = np.inf
 dl_min = 0
