@@ -35,37 +35,36 @@ for event in events_to_choose:
     if event == 'S250221eb'  or event =='S230830b' or event == 'S230715bw'or event == 'S241126dm' or event=='S250221gb'or event=='S250108ha' or event == 'S241104a' or event =='S240624cd'or event=='S240423br'or event=='S240420aw' or event=='S231112ag'  or event=='S230808i'or event=='S230712a' or event=='S230708bi'or event=='S230622ba':#or event=='S241110br':
         retracted+=1
         continue #or event == 'S241126dm'
-    if 'H0_posterior.csv' in os.listdir('Analysis plots/Gladep_neffPE10_npar25k_eps1_rs0/'+event) and 'H0_posterior.csv' in os.listdir('Analysis plots/Gladep_neffPE10_npar25k_eps1_rs42/'+event):
-        if (st.session_state["redis2"].exists(event)):
-            are_events = True
-            st.header(event)
-            decoded_data = {}
-            binary_data = {}
-            json_data = {}
+    if (st.session_state["redis2"].exists(event)):
+        are_events = True
+        st.header(event)
+        decoded_data = {}
+        binary_data = {}
+        json_data = {}
 
-            raw_data = st.session_state["redis2"].hgetall(event)
-            raw_data = dict(sorted(raw_data.items()))
+        raw_data = st.session_state["redis2"].hgetall(event)
+        raw_data = dict(sorted(raw_data.items()))
 
-            for k, v in raw_data.items():
-                key = k.decode() if isinstance(k, bytes) else k
+        for k, v in raw_data.items():
+            key = k.decode() if isinstance(k, bytes) else k
+            try:
+                value = v.decode("utf-8")
+
+                # Check if value is valid JSON
                 try:
-                    value = v.decode("utf-8")
+                    parsed_json = pd.read_json(StringIO(value))
+                    json_data[key] = parsed_json
+                except:
+                    decoded_data[key] = [value]
 
-                    # Check if value is valid JSON
-                    try:
-                        parsed_json = pd.read_json(StringIO(value))
-                        json_data[key] = parsed_json
-                    except:
-                        decoded_data[key] = [value]
+            except UnicodeDecodeError:
+                binary_data[key] = v  # Leave binary
 
-                except UnicodeDecodeError:
-                    binary_data[key] = v  # Leave binary
-
-            if json_data:
-                # st.subheader("Structured Data")
-                st.dataframe(json_data['posterior'], hide_index=True, height=200)
-                num_post += 1
-        #post = pd.read_csv('Analysis plots/Gladep_neffPE10_npar25k_eps1_rs0/'+event+'/H0_posterior.csv')
-        #posteriors_dict[event] = post.to_numpy()
-        #posteriors.append(post.to_numpy())
-        #event_list_rs0.append(event)
+        if json_data:
+            # st.subheader("Structured Data")
+            st.dataframe(json_data['posterior'], hide_index=True, height=200)
+            num_post += 1
+    #post = pd.read_csv('Analysis plots/Gladep_neffPE10_npar25k_eps1_rs0/'+event+'/H0_posterior.csv')
+    #posteriors_dict[event] = post.to_numpy()
+    #posteriors.append(post.to_numpy())
+    #event_list_rs0.append(event)
