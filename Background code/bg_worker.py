@@ -38,7 +38,7 @@ def poll_events():
                     traceback.print_exc()
 
                 if alert['superevent_id'][0] == 'S':
-                    r.rpush("queue:waiting", json.dumps(alert)) #Use all events for testing
+                    r.rpush("queue:waiting", json.dumps(alert))
             if connected:
                 r.hset("Status","Last Check",time.time())
         except:
@@ -78,9 +78,9 @@ def process_queue():
                         print("Import failed")'''
                     try:
                         # Do actual analysis
-                        r.sadd("events:all", alert_id)
                         print("Right before analyze_event",flush=True)
                         analyze_event(alert_id,result['event']['skymap'],cat,empty_cat,r=r)
+                        r.sadd("events:all", alert_id)
                         r.hset(alert_id,"status","Initial analysis complete")
                     except:
                         r.hset(alert_id, "status", "Initial analysis failed")

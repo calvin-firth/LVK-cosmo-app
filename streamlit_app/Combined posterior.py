@@ -42,3 +42,6 @@ if "Event table" not in st.session_state:
                 tbl_df.loc[event] = decoded_data
 
 st.write(tbl_df)
+
+df_json = tbl_df.to_json()
+st.session_state["redis2"].json().set("event_list_metadata","$",df_json)
