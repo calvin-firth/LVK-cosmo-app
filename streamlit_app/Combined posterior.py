@@ -19,6 +19,8 @@ if "Event table" not in st.session_state:
     ).apply(pd.to_numeric, errors="ignore")
     st.session_state["Event table"]=tbl_df
 
+st.write("The posteriors of multiple events can be combined by simply taking their product and normalizing the resulting distribution. Use the sliders below to select which events' posteriors will be included in the combined posterior.")
+
 tbl=st.session_state["Event table"]
 events_to_choose = []
 posteriors = []
