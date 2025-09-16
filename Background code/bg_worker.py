@@ -93,7 +93,7 @@ def process_queue():
             elif result['alert_type'] == 'UPDATE':
                 alert_id = result['superevent_id']
                 r.hset(alert_id, "status", "Running updated analysis")
-                r.hset("Status", "Currently Analyzing", alert_id + " Initial skymap")
+                r.hset("Status", "Currently Analyzing", alert_id + " Updated skymap")
                 if alert_id in r.smembers("events:all"):
                     try:
                         # Do actual analysis

@@ -13,7 +13,10 @@ if "redis2" not in st.session_state:
         decode_responses=False,retry_on_timeout=True)
 
 st.write("Queued alerts: ")
-st.write(st.session_state["queued"])
+try:
+    st.write(st.session_state["queued"])
+except:
+    st.write("queue too large to read")
 
 st.title("Recent events")
 
