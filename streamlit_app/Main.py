@@ -23,7 +23,10 @@ if "events" not in st.session_state:
 
 st.session_state["status"] = st.session_state["redis"].hgetall("Status")
 st.session_state["status"] = dict(sorted(st.session_state["status"].items()))
-st.session_state["queued"] = st.session_state["redis"].lrange("queue:waiting", 0, -1)
+try:
+    st.session_state["queued"] = st.session_state["redis"].lrange("queue:waiting", 0, -1)
+except:
+    st.session_state["queued"] = "queue too large to read"
 st.session_state["events"]=sorted(st.session_state["redis"].smembers("events:all"),reverse=True)
 
 st.session_state["status"]["Connected"] = ((time.time() - float(st.session_state["status"]["Last Check"])) < 60)
