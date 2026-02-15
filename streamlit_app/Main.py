@@ -17,7 +17,7 @@ if"queued" not in st.session_state:
 if "status" not in st.session_state:
     st.session_state["status"] = None
 if "redis" not in st.session_state:
-    st.session_state["redis"] = redis.Redis.from_url("rediss://default:AWTjAAIjcDE0ODhlMDIxZTEwNDg0Y2NmOTM5YTliZWI4ZTE0OGI5ZHAxMA@internal-sawfly-25827.upstash.io:6379",decode_responses=True,retry_on_timeout=True)
+    st.session_state["redis"] = redis.Redis.from_url("rediss://default_ro:AuEiAAIgcDIuQ6LLfLtc9kt4C1IgcAba7p2sLT-NK6bZjTFpNoICyQ@merry-grackle-57634.upstash.io:6379",decode_responses=True,retry_on_timeout=True)
 if "events" not in st.session_state:
     st.session_state["events"] = None
 
