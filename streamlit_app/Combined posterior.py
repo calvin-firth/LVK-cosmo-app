@@ -75,14 +75,14 @@ posteriors = np.transpose(posteriors, (2, 0, 1))
 comb_log = np.sum(np.log(posteriors[1]),axis=0)
 comb_log -= np.max(comb_log)
 combined_post = np.exp(comb_log)
-area = np.trapz(combined_post, posteriors[0,0])
+area = np.trapezoid(combined_post, posteriors[0,0])
 combined_post = combined_post / area
 
 log_likelihood = np.sum(np.log(posteriors[2]),axis=0)
 like_max = np.max(log_likelihood)
 log_likelihood -= np.max(log_likelihood)
 empty_post = np.exp(log_likelihood)
-area_empty = np.trapz(empty_post, posteriors[0,0])
+area_empty = np.trapezoid(empty_post, posteriors[0,0])
 empty_post = empty_post/area_empty
 
 fig,ax = plt.subplots()
