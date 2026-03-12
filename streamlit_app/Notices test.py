@@ -26,8 +26,6 @@ recent_events = sorted(st.session_state["events"],key = lambda event: int(event[
 
 for event in recent_events:
     t_event = int(event[1:7])
-    if (formatted_date - t_event > 200):
-        continue
 
     if (st.session_state["redis2"].exists(event)):
         are_events = True
