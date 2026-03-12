@@ -30,15 +30,7 @@ for event in recent_events:
     if (st.session_state["redis2"].exists(event)):
         are_events = True
         st.header(event)
-
-for event in st.session_state["events"]:
-    t_event = int(event[1:7])
-    if (formatted_date-t_event > 200):
-        continue
-
-    if(st.session_state["redis2"].exists(event)):
-        are_events=True
-        st.header(event)
+st.header(event)
         decoded_data = {}
         binary_data = {}
         json_data = {}
@@ -94,6 +86,3 @@ for event in st.session_state["events"]:
             #st.subheader("Structured Data")
             st.write("Posterior data")
             st.dataframe(json_data['posterior'],hide_index=True,height=200)
-
-if not are_events:
-    st.write("No recent events")
