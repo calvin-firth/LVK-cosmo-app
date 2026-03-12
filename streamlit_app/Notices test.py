@@ -22,6 +22,17 @@ today = date.today()
 formatted_date = int(today.strftime("%y%m%d"))
 are_events=False
 
+recent_events = sorted(st.session_state["events"],key = lambda event: int(event[1:7]),reverse=True)[:10]
+
+for event in recent_events:
+    t_event = int(event[1:7])
+    if (formatted_date - t_event > 200):
+        continue
+
+    if (st.session_state["redis2"].exists(event)):
+        are_events = True
+        st.header(event)
+
 for event in st.session_state["events"]:
     t_event = int(event[1:7])
     if (formatted_date-t_event > 200):
