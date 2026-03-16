@@ -19,6 +19,7 @@ if "Event table" not in st.session_state:
     st.session_state["Event table"]=tbl_df
     st.session_state["Event table"].columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
+    st.session_state["Event table"].reset_index().rename(columns={'index': 'Event'})
     events_to_choose = []
     posteriors = []
     retracted = 0
