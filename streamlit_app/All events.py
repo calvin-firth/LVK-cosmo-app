@@ -108,5 +108,7 @@ edited_df = st.data_editor(
 
 st.write(edited_df["is_checked"])
 
-if any(column_config["is_checked"]):
-    events_to_choose = st.session_state["Event table"][column_config["is_checked"]]
+if any(edited_df["is_checked"]):
+    events_to_choose = st.session_state["Event table"][edited_df["is_checked"]]
+
+st.write(events_to_choose)
