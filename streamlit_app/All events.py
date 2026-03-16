@@ -25,25 +25,7 @@ if "Event table" not in st.session_state:
     retracted = 0
     num_post = 0
 
-st.header("Interactive Data Editor with Checkboxes")
-
-# Configure the 'is_checked' column as a CheckboxColumn
-column_config = {
-    "is_checked": st.column_config.CheckboxColumn(
-        "Select",  # Column header label
-        help="Select this row to include in the results",
-        default=False,
-    )
-}
-
-# Display the data editor
-edited_df = st.data_editor(
-    st.session_state["Event table"],
-    column_config=column_config,
-    disabled=["command", "rating"],  # Optional: disable other columns
-)
-
-st.write("Use the dropdown menu to view the analysis results for all previously analyzed events (currently only includes LVK's O4 operating run)")
+st.write("Use the dropdown menu to view the analysis results for any previously analyzed event (currently only includes LVK's O4 operating run)")
 selected_event = st.selectbox("", ["Choose an event..."] + st.session_state["events"],label_visibility="collapsed")
 
 
@@ -106,3 +88,21 @@ if selected_event is not "Choose an event...":
         # st.subheader("Structured Data")
         st.write("Posterior data")
         st.dataframe(json_data['posterior'], hide_index=True, height=200)
+
+st.header("Interactive Data Editor with Checkboxes")
+
+# Configure the 'is_checked' column as a CheckboxColumn
+column_config = {
+    "is_checked": st.column_config.CheckboxColumn(
+        "Select",  # Column header label
+        help="Select this row to include in the results",
+        default=False,
+    )
+}
+
+# Display the data editor
+edited_df = st.data_editor(
+    st.session_state["Event table"],
+    column_config=column_config,
+    disabled=["command", "rating"],  # Optional: disable other columns
+)
