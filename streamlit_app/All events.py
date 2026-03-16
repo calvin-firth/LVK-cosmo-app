@@ -3,6 +3,7 @@ import redis
 import pandas as pd
 from io import StringIO
 import io
+import numpy as np
 
 if "redis2" not in st.session_state:
     st.session_state["redis2"] = redis.Redis.from_url(
