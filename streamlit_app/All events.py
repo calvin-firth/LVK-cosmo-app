@@ -28,6 +28,7 @@ if "Event table" not in st.session_state:
 st.write("Use the dropdown menu to view the analysis results for any previously analyzed event (currently only includes LVK's O4 operating run)")
 selected_event = st.selectbox("", ["Choose an event..."] + st.session_state["events"],label_visibility="collapsed")
 
+list_df = pd.DataFrame(st.session_state["events"], columns=["Event"])
 
 
 if selected_event is not "Choose an event...":
@@ -101,8 +102,8 @@ column_config = {
 }
 
 # Display the data editor
-edited_df = st.data_editor(
-    st.session_state["Event table"],
+edited_df = st.data_editor(list_df,
+    #st.session_state["Event table"],
     column_config=column_config,
     disabled=["command", "rating"],  # Optional: disable other columns
 )
