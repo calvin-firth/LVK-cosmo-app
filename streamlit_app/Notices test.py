@@ -68,7 +68,7 @@ for event in recent_events:
 
         # Show PNGs or warn
         if binary_data:
-            keys = ["skymap","numdensity","posterior plot"]
+            keys = ["Skymap","Number density vs. z","Posterior plot"]
             #st.subheader("Figures")
             for key in keys:
                 try:
@@ -84,4 +84,4 @@ for event in recent_events:
         if json_data:
             #st.subheader("Structured Data")
             st.write("Posterior data")
-            st.dataframe(json_data['posterior'],hide_index=True,height=200)
+            st.dataframe(json_data['Posterior'],hide_index=True,height=200)
