@@ -19,6 +19,7 @@ if "Event table" not in st.session_state:
 
 tbl=st.session_state["Event table"]
 tbl.columns = ["Event", "50% Sky-localization area","90% Sky-localization area","Luminosity distance (Mpc)"]
+tbl["is_checked"] = np.zeros(len(tbl["Event"]), dtype=bool)
 events_to_choose = []
 posteriors = []
 retracted=0
