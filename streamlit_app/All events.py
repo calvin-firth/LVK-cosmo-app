@@ -40,7 +40,7 @@ column_config = {
 
 # Display the data editor
 edited_df = st.data_editor(
-    df,
+    tbl,
     column_config=column_config,
     disabled=["command", "rating"],  # Optional: disable other columns
     hide_index=True
