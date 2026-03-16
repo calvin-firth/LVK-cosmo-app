@@ -18,6 +18,7 @@ if "Event table" not in st.session_state:
     st.session_state["Event table"]=tbl_df
 
 tbl=st.session_state["Event table"]
+tbl.columns = ["Event", "50% Sky-localization area","90% Sky-localization area","Luminosity distance (Mpc)"]
 events_to_choose = []
 posteriors = []
 retracted=0
