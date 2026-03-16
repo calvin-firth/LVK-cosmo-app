@@ -106,5 +106,5 @@ edited_df = st.data_editor(
     disabled=["command", "rating"],  # Optional: disable other columns
 )
 
-if any(column_config):
-    events_to_choose = st.session_state["Event table"][column_config]
+if any(column_config["is_checked"]):
+    events_to_choose = st.session_state["Event table"][column_config["is_checked"]]
