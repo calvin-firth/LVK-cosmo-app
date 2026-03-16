@@ -19,7 +19,7 @@ if "Event table" not in st.session_state:
     st.session_state["Event table"]=tbl_df
     st.session_state["Event table"].columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
-    st.session_state["Event table"].reset_index()
+    #st.session_state["Event table"].reset_index()
     events_to_choose = []
     posteriors = []
     retracted = 0
@@ -41,7 +41,6 @@ edited_df = st.data_editor(
     st.session_state["Event table"],
     column_config=column_config,
     disabled=["command", "rating"],  # Optional: disable other columns
-    hide_index=True
 )
 
 st.write("Use the dropdown menu to view the analysis results for all previously analyzed events (currently only includes LVK's O4 operating run)")
