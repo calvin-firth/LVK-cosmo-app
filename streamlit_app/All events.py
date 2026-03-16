@@ -51,13 +51,14 @@ if selected_event is not "Choose an event...":
 
     # Show PNGs or warn
     if binary_data:
-        keys = ["Skymap", "Number density vs. z", "Posterior plot"]
+        keys = ["skymap", "numdensity", "posterior plot"]
+        text = ["Skymap", "Number density", "Posterior plot"]
         # st.subheader("Figures")
-        for key in keys:
+        for n, key in enumerate(keys):
             try:
                 binary = binary_data[key]
                 if binary.startswith(b'\x89PNG'):
-                    st.write(f"**{key}**")
+                    st.write(f"**{text[n]}**")
                     st.image(io.BytesIO(binary))
                 else:
                     st.warning(f"Cannot display binary data for key '{key}': unsupported format.")
@@ -67,4 +68,4 @@ if selected_event is not "Choose an event...":
     if json_data:
         # st.subheader("Structured Data")
         st.write("Posterior data")
-        st.dataframe(json_data['Posterior'], hide_index=True, height=200)
+        st.dataframe(json_data['posterior'], hide_index=True, height=200)
