@@ -12,12 +12,12 @@ if "redis2" not in st.session_state:
         "rediss://default_ro:AuEiAAIgcDIuQ6LLfLtc9kt4C1IgcAba7p2sLT-NK6bZjTFpNoICyQ@merry-grackle-57634.upstash.io:6379",
         decode_responses=False,retry_on_timeout=True)
 
-st.write("Queued alerts: ")
-st.write(st.session_state["queued"])
+#st.write("Queued alerts: ")
+#st.write(st.session_state["queued"])
 
 
 st.title("Recent events")
-
+st.write("This page shows the analysis results from the ten most recent LVK events.")
 today = date.today()
 formatted_date = int(today.strftime("%y%m%d"))
 are_events=False
