@@ -109,6 +109,10 @@ edited_df = st.data_editor(
 if any(edited_df["is_checked"]):
     events_to_choose = st.session_state["Event table"][edited_df["is_checked"]]
 
+    posteriors = []
+    retracted = 0
+    num_post = 0
+
     for event in events_to_choose.index:
         if event == 'S250221eb'  or event =='S230830b' or event == 'S230715bw'or event == 'S241126dm' or event=='S250221gb'or event=='S250108ha' or event == 'S241104a' or event =='S240624cd'or event=='S240423br'or event=='S240420aw' or event=='S231112ag'  or event=='S230808i'or event=='S230712a' or event=='S230708bi'or event=='S230622ba':#or event=='S241110br':
             retracted+=1
