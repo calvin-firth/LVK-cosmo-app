@@ -106,9 +106,64 @@ edited_df = st.data_editor(
     disabled=["command", "rating"],  # Optional: disable other columns
 )
 
-st.write(edited_df["is_checked"])
-
 if any(edited_df["is_checked"]):
     events_to_choose = st.session_state["Event table"][edited_df["is_checked"]]
 
-st.write(events_to_choose)
+    for event in events_to_choose.index:
+        if event == 'S250221eb'  or event =='S230830b' or event == 'S230715bw'or event == 'S241126dm' or event=='S250221gb'or event=='S250108ha' or event == 'S241104a' or event =='S240624cd'or event=='S240423br'or event=='S240420aw' or event=='S231112ag'  or event=='S230808i'or event=='S230712a' or event=='S230708bi'or event=='S230622ba':#or event=='S241110br':
+            retracted+=1
+            continue #or event == 'S241126dm'
+        if (st.session_state["redis2"].exists(event)):
+            decoded_data = {}
+            binary_data = {}
+            json_data = {}
+
+            raw_data = st.session_state["redis2"].hgetall(event)
+            raw_data = dict(sorted(raw_data.items()))
+
+            for k, v in raw_data.items():
+                key = k.decode() if isinstance(k, bytes) else k
+                try:
+                    value = v.decode("utf-8")
+
+                    # Check if value is valid JSON
+                    try:
+                        parsed_json = pd.read_json(StringIO(value))
+                        json_data[key] = parsed_json
+                    except:
+                        decoded_data[key] = [value]
+
+                except UnicodeDecodeError:
+                    binary_data[key] = v  # Leave binary
+
+            if json_data:
+                # st.subheader("Structured Data")
+                posteriors.append(json_data['posterior'].to_numpy())
+                num_post += 1
+
+    posteriors = np.stack(posteriors)
+    posteriors = np.transpose(posteriors, (2, 0, 1))
+
+    comb_log = np.sum(np.log(posteriors[1]),axis=0)
+    comb_log -= np.max(comb_log)
+    combined_post = np.exp(comb_log)
+    area = np.trapezoid(combined_post, posteriors[0,0])
+    combined_post = combined_post / area
+
+    log_likelihood = np.sum(np.log(posteriors[2]),axis=0)
+    like_max = np.max(log_likelihood)
+    log_likelihood -= np.max(log_likelihood)
+    empty_post = np.exp(log_likelihood)
+    area_empty = np.trapezoid(empty_post, posteriors[0,0])
+    empty_post = empty_post/area_empty
+
+    fig,ax = plt.subplots()
+    ax.scatter(posteriors[0,0],combined_post,s=5)
+    ax.plot(posteriors[0,0],empty_post,color='orange')
+    ax.set_xlabel("$H_0 (km/s/Mpc)$",fontsize=16)
+    ax.set_ylabel("$p(H_0)$",fontsize=16)
+    ax.set_title("Combined posterior (" + str(num_post) + " events)",fontsize=20)
+    ax.tick_params(labelsize=14)
+    ax.legend(["Glade+ K-band, eps1","Empty catalog"],fontsize=14)
+
+    st.pyplot(fig)
