@@ -30,7 +30,6 @@ for event in recent_events:
     if (st.session_state["redis2"].exists(event)):
         are_events = True
         st.header(event)
-st.header(event)
         decoded_data = {}
         binary_data = {}
         json_data = {}
