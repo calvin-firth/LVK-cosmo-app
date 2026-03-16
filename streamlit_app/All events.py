@@ -29,7 +29,7 @@ st.write("Use the dropdown menu to view the analysis results for any previously 
 selected_event = st.selectbox("", ["Choose an event..."] + st.session_state["events"],label_visibility="collapsed")
 
 list_df = pd.DataFrame(st.session_state["events"], columns=["Event"])
-
+list_df["is_checked"] = np.zeros(len(st.session_state["events"]))
 
 if selected_event is not "Choose an event...":
     st.header(selected_event)
