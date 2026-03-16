@@ -8,8 +8,27 @@ if "redis2" not in st.session_state:
     st.session_state["redis2"] = redis.Redis.from_url(
         "rediss://default_ro:AuEiAAIgcDIuQ6LLfLtc9kt4C1IgcAba7p2sLT-NK6bZjTFpNoICyQ@merry-grackle-57634.upstash.io:6379",
         decode_responses=False,retry_on_timeout=True)
+
+if "Event table" not in st.session_state:
+    tbl_json = st.session_state["redis2"].json().get("event_list_metadata",'$')[0]
+    tbl_df = pd.read_json(StringIO(tbl_json),dtype=float)
+    tbl_df = tbl_df.applymap(
+        lambda x: x[0] if isinstance(x, list) else x
+    ).apply(pd.to_numeric, errors="ignore")
+    st.session_state["Event table"]=tbl_df
+
+tbl=st.session_state["Event table"]
+events_to_choose = []
+posteriors = []
+retracted=0
+num_post=0
+
+st.dataframe(tbl)
+
 st.write("Use the dropdown menu to view the analysis results for all previously analyzed events (currently only includes LVK's O4 operating run)")
 selected_event = st.selectbox("", ["Choose an event..."] + st.session_state["events"],label_visibility="collapsed")
+
+
 
 if selected_event is not "Choose an event...":
     st.header(selected_event)
