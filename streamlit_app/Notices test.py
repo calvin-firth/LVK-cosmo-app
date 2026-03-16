@@ -69,12 +69,13 @@ for event in recent_events:
         # Show PNGs or warn
         if binary_data:
             keys = ["skymap","numdensity","posterior plot"]
+            text = ["Skymap", "Number density", "Posterior plot"]
             #st.subheader("Figures")
-            for key in keys:
+            for n,key in enumerate(keys):
                 try:
                     binary = binary_data[key]
                     if binary.startswith(b'\x89PNG'):
-                        st.write(f"**{key}**")
+                        st.write(f"**{text[n]}**")
                         st.image(io.BytesIO(binary))
                     else:
                         st.warning(f"Cannot display binary data for key '{key}': unsupported format.")
