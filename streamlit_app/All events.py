@@ -17,14 +17,14 @@ if "Event table" not in st.session_state:
         lambda x: x[0] if isinstance(x, list) else x
     ).apply(pd.to_numeric, errors="ignore")
     st.session_state["Event table"]=tbl_df
+    tbl = st.session_state["Event table"]
+    tbl.columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
+    tbl["is_checked"] = np.zeros(len(tbl["50% Sky-localization area"]), dtype=bool)
+    events_to_choose = []
+    posteriors = []
+    retracted = 0
+    num_post = 0
 
-tbl=st.session_state["Event table"]
-tbl.columns = ["50% Sky-localization area","90% Sky-localization area","Luminosity distance (Mpc)"]
-tbl["is_checked"] = np.zeros(len(tbl["50% Sky-localization area"]), dtype=bool)
-events_to_choose = []
-posteriors = []
-retracted=0
-num_post=0
 
 st.dataframe(tbl)
 st.header("Interactive Data Editor with Checkboxes")
