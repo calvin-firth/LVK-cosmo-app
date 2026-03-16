@@ -109,7 +109,7 @@ edited_df = st.data_editor(list_df,
 )
 
 if any(edited_df["is_checked"]):
-    events_to_choose = st.session_state["events"][edited_df["is_checked"]]
+    events_to_choose = st.session_state["events"][np.where(edited_df["is_checked"])]
 
     posteriors = []
     retracted = 0
