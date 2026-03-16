@@ -18,7 +18,7 @@ if "Event table" not in st.session_state:
     st.session_state["Event table"]=tbl_df
 
 tbl=st.session_state["Event table"]
-tbl.columns = ["Event", "50% Sky-localization area","90% Sky-localization area","Luminosity distance (Mpc)"]
+tbl.columns = ["50% Sky-localization area","90% Sky-localization area","Luminosity distance (Mpc)"]
 tbl["is_checked"] = np.zeros(len(tbl["Event"]), dtype=bool)
 events_to_choose = []
 posteriors = []
@@ -26,6 +26,24 @@ retracted=0
 num_post=0
 
 st.dataframe(tbl)
+st.header("Interactive Data Editor with Checkboxes")
+
+# Configure the 'is_checked' column as a CheckboxColumn
+column_config = {
+    "is_checked": st.column_config.CheckboxColumn(
+        "Select",  # Column header label
+        help="Select this row to include in the results",
+        default=False,
+    )
+}
+
+# Display the data editor
+edited_df = st.data_editor(
+    df,
+    column_config=column_config,
+    disabled=["command", "rating"],  # Optional: disable other columns
+    hide_index=True
+)
 
 st.write("Use the dropdown menu to view the analysis results for all previously analyzed events (currently only includes LVK's O4 operating run)")
 selected_event = st.selectbox("", ["Choose an event..."] + st.session_state["events"],label_visibility="collapsed")
