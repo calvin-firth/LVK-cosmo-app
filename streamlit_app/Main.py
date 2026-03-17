@@ -18,6 +18,10 @@ if "status" not in st.session_state:
     st.session_state["status"] = None
 if "redis" not in st.session_state:
     st.session_state["redis"] = redis.Redis.from_url("rediss://default_ro:AuEiAAIgcDIuQ6LLfLtc9kt4C1IgcAba7p2sLT-NK6bZjTFpNoICyQ@merry-grackle-57634.upstash.io:6379",decode_responses=True,retry_on_timeout=True)
+if "redis2" not in st.session_state:
+    st.session_state["redis2"] = redis.Redis.from_url(
+        "rediss://default_ro:AuEiAAIgcDIuQ6LLfLtc9kt4C1IgcAba7p2sLT-NK6bZjTFpNoICyQ@merry-grackle-57634.upstash.io:6379",
+        decode_responses=False,retry_on_timeout=True)
 if "events" not in st.session_state:
     st.session_state["events"] = None
 
