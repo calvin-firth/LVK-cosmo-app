@@ -78,8 +78,15 @@ if "Event table" not in st.session_state:
                 df = pd.DataFrame.from_dict(decoded_data)
                 for col in ['50% area', '90% area', 'dl']:
                     df[col] = pd.to_numeric(df[col], errors='coerce')
-                st.session_state["Event table"] = pd.DataFrame(np.concatenate([st.session_state["Event table"].values,df[['50% area', '90% area', 'dl']].values]),columns=st.session_state["Event table"].columns)
-    #st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
+                df_to_add = df[['50% area', '90% area', 'dl']].copy()
+
+                # 2. Force it to use the first DF's column names
+                df_to_add.columns = st.session_state["Event table"].columns
+
+                # 3. Concatenate (preserves both indices and the first DF's column names)
+                st.session_state["Event table"] = pd.concat([st.session_state["Event table"], df_to_add])
+                #st.session_state["Event table"] = pd.DataFrame(np.concatenate([st.session_state["Event table"].values,df[['50% area', '90% area', 'dl']].values]),columns=st.session_state["Event table"].columns)
+    st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
 
     posteriors = []
