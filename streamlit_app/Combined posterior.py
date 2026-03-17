@@ -33,7 +33,7 @@ loc_min,loc_max=st.select_slider("90% Sky-localization area ($deg^2$) (slider is
 
 dl_min,dl_max = st.slider("Luminosity distance (Mpc)",0,np.int64(np.ceil(np.max(tbl["dl"]))),(0,2000))
 
-for event in tbl.loc[(tbl['90% area']<loc_max)*(tbl['90% area']>loc_min)*(tbl['dl']<dl_max)*(tbl['dl']>dl_min)].index:
+for event in tbl.loc[(tbl["90% Sky-localization area"]<loc_max)*(tbl["90% Sky-localization area"]>loc_min)*(tbl["Luminosity distance (Mpc)"]<dl_max)*(tbl["Luminosity distance (Mpc)"]>dl_min)].index:
     events_to_choose.append(event)
 
 for event in events_to_choose:
