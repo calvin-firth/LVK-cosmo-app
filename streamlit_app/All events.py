@@ -47,9 +47,15 @@ if "Event table" not in st.session_state:
 
             # Show plain UTF-8 decoded fields
             if decoded_data:
-                st.write(decoded_data)
-                st.session_state["Event table"].loc[event] = list(decoded_data.values())[:-1]
-    #st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
+                mapper = {'50% area': '{0:,.2f}',
+                          '90% area': '{0:,.2f}',
+                          'dl': '{0:,.2f}'
+                          }
+                df = pd.DataFrame.from_dict(decoded_data)
+                for col in ['50% area', '90% area', 'dl']:
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+                st.session_state["Event table"] = pd.DataFrame(np.concatenate([st.session_state["Event table"].values,df.values]),columns=st.session_state["Event table"].columns)
+    st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
 
     posteriors = []
