@@ -21,6 +21,7 @@ if "Event table" not in st.session_state:
     st.session_state["Event table"].columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
     for event in st.session_state["events"]:
         if event not in st.session_state["Event table"].index:
+            st.write(event)
             decoded_data = {}
             binary_data = {}
             json_data = {}
