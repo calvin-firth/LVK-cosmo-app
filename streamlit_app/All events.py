@@ -21,6 +21,7 @@ if "Event table" not in st.session_state:
     st.session_state["Event table"].columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
     st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
     for event in st.session_state["events"]:
+        st.write(event)
         if event not in st.session_state["Event table"].index:
             st.write(event)
             decoded_data = {}
