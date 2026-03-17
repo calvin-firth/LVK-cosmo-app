@@ -76,6 +76,7 @@ if "Event table" not in st.session_state:
                           'dl': '{0:,.2f}'
                           }
                 df = pd.DataFrame.from_dict(decoded_data)
+                df.index = [event]
                 for col in ['50% area', '90% area', 'dl']:
                     df[col] = pd.to_numeric(df[col], errors='coerce')
                 df_to_add = df[['50% area', '90% area', 'dl']].copy()
