@@ -48,7 +48,7 @@ if "Event table" not in st.session_state:
             # Show plain UTF-8 decoded fields
             if decoded_data:
                 st.write(decoded_data)
-                st.session_state["Event table"].loc[event] = list(decoded_data.values()[:-1])
+                st.session_state["Event table"].loc[event] = list(decoded_data.values())[:-1]
     st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
 
