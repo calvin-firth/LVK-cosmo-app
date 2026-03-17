@@ -19,6 +19,34 @@ if "Event table" not in st.session_state:
     ).apply(pd.to_numeric, errors="ignore")
     st.session_state["Event table"]=tbl_df
     st.session_state["Event table"].columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
+    for event in st.session_state["events"]:
+        if event not in st.session_state["Event table"].index:
+            decoded_data = {}
+            binary_data = {}
+            json_data = {}
+
+            raw_data = st.session_state["redis2"].hgetall(event)
+            raw_data = dict(sorted(raw_data.items()))
+
+            for k, v in raw_data.items():
+                key = k.decode() if isinstance(k, bytes) else k
+                try:
+                    value = v.decode("utf-8")
+
+                    # Check if value is valid JSON
+                    try:
+                        parsed_json = pd.read_json(StringIO(value))
+                        json_data[key] = parsed_json
+                    except:
+                        decoded_data[key] = [value]
+
+                except UnicodeDecodeError:
+                    binary_data[key] = v  # Leave binary
+
+            # Show plain UTF-8 decoded fields
+            if decoded_data:
+                st.session_state["Event table"].loc[event] = decoded_data.values()
+
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
     st.session_state["Event table"].reset_index().rename(columns={'index':"Event"})
     posteriors = []
@@ -28,8 +56,8 @@ if "Event table" not in st.session_state:
 st.write("Use the dropdown menu to view the analysis results for any previously analyzed event (currently only includes LVK's O4 operating run)")
 selected_event = st.selectbox("", ["Choose an event..."] + st.session_state["events"],label_visibility="collapsed")
 
-list_df = pd.DataFrame(st.session_state["events"], columns=["Event"])
-list_df["is_checked"] = np.ones(len(st.session_state["events"]),dtype=bool)
+#list_df = pd.DataFrame(st.session_state["events"], columns=["Event"])
+#list_df["is_checked"] = np.ones(len(st.session_state["events"]),dtype=bool)
 
 if selected_event is not "Choose an event...":
     st.header(selected_event)
@@ -102,8 +130,8 @@ column_config = {
 }
 
 # Display the data editor
-edited_df = st.data_editor(list_df,
-    #st.session_state["Event table"],
+edited_df = st.data_editor(
+    st.session_state["Event table"],
     column_config=column_config,
     disabled=["command", "rating"],  # Optional: disable other columns
 )
