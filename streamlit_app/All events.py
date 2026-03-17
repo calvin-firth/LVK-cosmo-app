@@ -19,7 +19,6 @@ if "Event table" not in st.session_state:
     ).apply(pd.to_numeric, errors="ignore")
     st.session_state["Event table"]=tbl_df
     st.session_state["Event table"].columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
-    st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
     for event in st.session_state["events"]:
         st.write(event)
         if event not in st.session_state["Event table"].index:
@@ -49,8 +48,8 @@ if "Event table" not in st.session_state:
             # Show plain UTF-8 decoded fields
             if decoded_data:
                 st.write(decoded_data)
-                st.session_state["Event table"].loc[event] = decoded_data.values()[:-1]
-
+                st.session_state["Event table"].loc[event] = list(decoded_data.values()[:-1])
+    st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
 
     posteriors = []
