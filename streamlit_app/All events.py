@@ -129,7 +129,8 @@ if selected_event is not "Choose an event...":
         st.write("Posterior data")
         st.dataframe(json_data['posterior'], hide_index=True, height=200)
 
-st.header("Interactive Data Editor with Checkboxes")
+st.header("Event table")
+st.write("Below is a sortable table of all previously analyzed events and their sky-localization and luminosity distance estimates. Use the checkboxes on the right to generate a custom combined posterior with the selected events.")
 
 # Configure the 'is_checked' column as a CheckboxColumn
 column_config = {
