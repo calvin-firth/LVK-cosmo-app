@@ -134,7 +134,7 @@ column_config = {
     "is_checked": st.column_config.CheckboxColumn(
         "Select",  # Column header label
         help="Select this row to include in the results",
-        default=True,
+        default=False,
     )
 }
 
