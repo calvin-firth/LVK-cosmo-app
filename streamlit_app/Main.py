@@ -86,7 +86,7 @@ if "Event table" not in st.session_state:
                 # 3. Concatenate (preserves both indices and the first DF's column names)
                 st.session_state["Event table"] = pd.concat([st.session_state["Event table"], df_to_add])
                 #st.session_state["Event table"] = pd.DataFrame(np.concatenate([st.session_state["Event table"].values,df[['50% area', '90% area', 'dl']].values]),columns=st.session_state["Event table"].columns)
-    st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
+    #st.session_state["Event table"].reset_index().rename(columns={'index': "Event"})
     st.session_state["Event table"]["is_checked"] = np.zeros(len(st.session_state["Event table"]["50% Sky-localization area"]), dtype=bool)
 
     posteriors = []
