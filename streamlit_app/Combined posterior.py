@@ -14,7 +14,7 @@ if "redis2" not in st.session_state:
 if "Event table" not in st.session_state:
     tbl_json = st.session_state["redis2"].json().get("event_list_metadata",'$')[0]
     tbl_df = pd.read_json(StringIO(tbl_json),dtype=float)
-    tbl_df = tbl_df.applymap(
+    tbl_df = tbl_df.map(
         lambda x: x[0] if isinstance(x, list) else x
     ).apply(pd.to_numeric, errors="ignore")
     st.session_state["Event table"]=tbl_df
