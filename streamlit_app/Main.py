@@ -42,7 +42,7 @@ if "Event table" not in st.session_state:
     tbl_df = pd.read_json(StringIO(tbl_json),dtype=float)
     tbl_df = tbl_df.map(
         lambda x: x[0] if isinstance(x, list) else x
-    ).apply(pd.to_numeric, errors="ignore")
+    ).apply(pd.to_numeric, errors="coerce")
     st.session_state["Event table"]=tbl_df
     st.session_state["Event table"].columns = ["50% Sky-localization area", "90% Sky-localization area", "Luminosity distance (Mpc)"]
     for event in st.session_state["events"]:
